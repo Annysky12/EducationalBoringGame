@@ -5,15 +5,15 @@ public class Move : MonoBehaviour {
 
 	public float speed = 0.5f;
 	public float top = 5.0f;
-	public float bottom = -1.0f;
+	public float bottom;
 	public bool waiting = false;
 	public float waitingTime = 0.0f;
 	private float curret_Time;
-	private int flip = 1;
+	public int flip = 1;
 	//public Rigidbody baloon;
 	// Use this for initialization
 	void Start () {
-
+		bottom = transform.position.y;
 	}
 	
 	// Update is called once per frame
