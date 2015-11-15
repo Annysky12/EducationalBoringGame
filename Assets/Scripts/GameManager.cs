@@ -8,12 +8,18 @@ public class GameManager : MonoBehaviour {
 	public Text operationText;
 	public Move move;
 	public TextMesh[] balls;
+	public Text mistakeText;
+	public GameObject gameOver;
+	public Move eneble;
+	public Text gameOverText;
 
 	private int score;
 	private int firstOperator;
 	private int secondOperator;
 	private int [] answers = new int[5];
 	private string correctAnswer;
+	private int mistakes = 0;
+
 
 	void Start () {
 		Reset ();
@@ -28,6 +34,9 @@ public class GameManager : MonoBehaviour {
 		score = 0;
 		scoreText.text = "0";
 		CreateOperation ();
+		mistakes = 0;
+		mistakeText.text = "";
+
 
 	}
 
@@ -60,10 +69,35 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void AnswerClick (string answer){
-		if (correctAnswer == answer) {
-			score = score + 5;
-			scoreText.text = score.ToString();
+		if (mistakes < 5) {	
+			if (correctAnswer == answer) {
+				score = score + 5;
+				scoreText.text = score.ToString ();
+			} else {
+				if (score < 2) {
+					score = 0;
+					MistakesCount();
+				} else {
+					score = score - 2;
+					scoreText.text = score.ToString ();
+					MistakesCount();
+				}
+			}
+			CreateOperation ();
 		}
-		CreateOperation ();
+		else {
+			gameOverText.text = gameOverText.text + " " +
+				"Score: " + score;
+			gameOver.SetActive(true);
+			eneble.enabled = false;
+			Reset();
+			operationText.text = " x ";
+		}
+	}
+
+	void MistakesCount () {
+		mistakes = mistakes + 1;
+		mistakeText.text = mistakeText.text + "x";
+
 	}
 }
